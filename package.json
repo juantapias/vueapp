@@ -1,0 +1,21 @@
+{
+  "name": "vue-app",
+  "version": "1.0.0",
+  "description": "My brilliant Nuxt.js project",
+  "author": "",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "cookieparser": "^0.1.0",
+    "firebase": "^7.14.2",
+    "js-cookie": "^2.2.1",
+    "jwt-decode": "^2.2.0",
+    "nuxt": "^2.0.0"
+  },
+  "devDependencies": {}
+}
