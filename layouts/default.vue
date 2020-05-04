@@ -1,10 +1,72 @@
 <template>
   <div>
+    <div class="main">
+      <div class="main-link">
+        <nuxt-link to="/">Inicio</nuxt-link>|
+        <div @click="logout" v-if="loggedIn" class="logout-link">Logout</div>
+        <nuxt-link to="login" v-else>Login</nuxt-link>
+      </div>
+    </div>
     <nuxt />
   </div>
 </template>
 
+<script>
+import * as firebase from "firebase/app";
+import "firebase/auth";
+import Cookies from "js-cookie";
+export default {
+  mounted(){
+    this.setupFirebase();
+  },
+  data(){
+    return {
+      loggedIn: true
+    }
+  },
+  methods: {
+    setupFirebase() {
+      firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          console.log('Logged In');
+          this.loggedIn = true;
+          firebase.auth().currentUser.getIdToken(true).then(token => {
+            Cookies.set('access_token', token);
+          })
+        } else {
+          this.loggedIn = false;
+          Cookies.remove('access_token')
+        }
+      })
+    },
+    logout() {
+      firebase.auth().signOut().then(()=> {
+        this.$router.push("/")
+      })
+    }
+  }
+}
+</script>
+
 <style>
+.logout-link {
+  cursor: pointer;
+  text-decoration: underline;
+  color: #551a8b;
+}
+.main {
+  margin: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.main-link {
+  width: 30%;
+  margin: 10px 20px;
+  display: flex;
+  justify-content: space-around;
+}
 html {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, 'Helvetica Neue', Arial, sans-serif;
